@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import "./index.css";
 import Home from './pages/Home';
 import Product from './pages/Product';
 
@@ -15,6 +16,7 @@ function App() {
         <Route path="/product" element={<Product />} />
       </Routes>
     </Router>
+
   );
 }
 
