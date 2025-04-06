@@ -4,7 +4,7 @@ import useProducts from '../hooks/UseProducts';
 import ProductCard from '../components/ProductCard';
 import heroVideo from '../assets/hero.mp4';
 
-const Home = () => {
+const Home = ({addToCart}) => {
   const { products, loading } = useProducts();
   const [selectedCategory, setSelectedCategory] = useState('All');
 
@@ -13,9 +13,12 @@ const Home = () => {
 
 
   const filteredProducts =
-    selectedCategory === 'All'
-      ? products
-      : products.filter((product) => product.category === selectedCategory);
+  selectedCategory === 'All'
+    ? [] 
+    : products
+        .filter((product) => product.category === selectedCategory)
+        .slice(0, 4);
+
 
   return (
     <div className="bg-[#f8f8f8] text-[#2e2e2e]">
@@ -79,7 +82,7 @@ const Home = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
             {products.slice(0, 4).map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard key={product.id} product={product} addToCart={addToCart} />
             ))}
           </div>
         )}

@@ -6,6 +6,8 @@ import { useState, useEffect } from 'react';
 import Cart from './pages/Cart';
 import { Toaster } from 'react-hot-toast';
 import toast from 'react-hot-toast'; 
+import { ShoppingCartIcon } from '@heroicons/react/24/outline';
+
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -60,17 +62,36 @@ function App() {
       
       <div className="flex flex-col min-h-screen">
         {/* Navbar */}
-        <nav className="p-4 bg-gray-100 flex items-center justify-between">
-          <div className="text-xl font-bold text-gray-800">
-            <Link to="/">Designish</Link>
-          </div>
-          <div className="flex gap-4 items-center">
-            <Link to="/" className="text-blue-600 hover:underline">Home</Link>
-            <Link to="/product" className="text-blue-600 hover:underline">Product</Link>
-            <Link to="/cart" className="text-blue-600 hover:underline">Cart ({cart.length})</Link>
-          </div>
+        <nav className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center h-16">
+              
+              {/* Brand */}
+              <Link to="/" className="text-2xl font-bold text-gray-800 tracking-tight">
+                Designish
+              </Link>
 
+              {/* Navigation Links */}
+              <div className="hidden sm:flex gap-6 text-sm font-medium items-center">
+                <Link to="/" className="text-gray-600 hover:text-black transition">Home</Link>
+                <Link to="/product" className="text-gray-600 hover:text-black transition">Product</Link>
+              </div>
+
+              {/* Cart */}
+              <div className="relative">
+                <Link to="/cart">
+                  <ShoppingCartIcon className="h-6 w-6 text-gray-700 hover:text-black transition" />
+                  {cart.length > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-semibold px-1.5 py-0.5 rounded-full">
+                      {cart.reduce((sum, item) => sum + (item.quantity || 1), 0)}
+                    </span>
+                  )}
+                </Link>
+              </div>
+            </div>
+          </div>
         </nav>
+
 
         {/* Main Content */}
         <main className="flex-grow">
