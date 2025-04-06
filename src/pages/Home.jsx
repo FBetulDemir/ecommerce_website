@@ -48,7 +48,7 @@ const Home = ({addToCart}) => {
       {/* Categories */}
       <section className="py-16 px-4 text-center bg-[#f8f8f8]">
         <h2 className="text-3xl font-semibold mb-12">Shop by Category</h2>
-        
+
         {[...new Set(products.map((product) => product.category))].map((category, index) => {
           const previewProducts = products
             .filter((product) => product.category === category)
@@ -80,7 +80,7 @@ const Home = ({addToCart}) => {
                   <motion.div
                     key={product.id}
                     whileHover={{ scale: 1.03 }}
-                    className="bg-white rounded-lg shadow hover:shadow-lg transition-all p-4 text-left"
+                    className="bg-white rounded-lg shadow hover:shadow-lg transition-all p-4 text-center"
                   >
                     <img
                       src={product.image}
@@ -90,11 +90,12 @@ const Home = ({addToCart}) => {
                     <h4 className="text-sm font-semibold line-clamp-2">{product.title}</h4>
                     <p className="text-gray-500 mt-1">${product.price}</p>
                     <Link
-                      to={`/product?category=${encodeURIComponent(product.category)}`}
-                      className="text-sm text-blue-600 hover:underline mt-2 inline-block"
+                      to={`/product/${product.id}`}
+                      className="inline-block mt-2 text-sm bg-[#2e2e2e] text-white px-4 py-2 rounded-full hover:bg-black transition"
                     >
                       View Product
                     </Link>
+
                   </motion.div>
                 ))}
               </div>

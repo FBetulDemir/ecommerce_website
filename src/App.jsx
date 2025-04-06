@@ -7,6 +7,7 @@ import Cart from './pages/Cart';
 import { Toaster } from 'react-hot-toast';
 import toast from 'react-hot-toast'; 
 import { ShoppingCartIcon } from '@heroicons/react/24/outline';
+import ProductDetails from './pages/ProductDetails';
 
 
 function App() {
@@ -98,6 +99,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home addToCart={addToCart} />} />
             <Route path="/product" element={<Product addToCart={addToCart} />} />
+            <Route path="/product/:id" element={<ProductDetails addToCart={addToCart} />} />
             <Route path="/cart" element={<Cart cart={cart} setCart={setCart} removeFromCart={removeFromCart} />} />
 
           </Routes>
