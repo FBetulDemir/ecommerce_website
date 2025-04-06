@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import useProducts from '../hooks/UseProducts';
 import ProductCard from '../components/ProductCard';
 import heroVideo from '../assets/hero.mp4';
+import { motion } from 'framer-motion';
 
 const Home = ({addToCart}) => {
   const { products, loading } = useProducts();
@@ -45,34 +46,63 @@ const Home = ({addToCart}) => {
       </section>
 
       {/* Categories */}
-      <section className="py-12 px-4 text-center">
-        <h2 className="text-2xl font-semibold mb-8">Shop by Category</h2>
-        <div className="flex justify-center gap-4 mb-8">
-          {categories.map((category) => (
-            <button
+      <section className="py-16 px-4 text-center bg-[#f8f8f8]">
+        <h2 className="text-3xl font-semibold mb-12">Shop by Category</h2>
+        
+        {[...new Set(products.map((product) => product.category))].map((category, index) => {
+          const previewProducts = products
+            .filter((product) => product.category === category)
+            .slice(0, 3); // Only 3 per section
+
+          return (
+            <motion.div
               key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={`px-4 py-2 rounded-full ${
-                selectedCategory === category
-                  ? 'bg-[#2e2e2e] text-white'
-                  : 'bg-white text-[#2e2e2e] border'
-              } transition`}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              viewport={{ once: true }}
+              className="mb-16"
             >
-              {category}
-            </button>
-          ))}
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          {filteredProducts.map((product) => (
-            <div key={product.id} className="bg-white shadow-md rounded-lg p-4 hover:shadow-xl transition">
-              <Link to={`/product?category=${product.category}`} className="block">
-                <img src={product.image} alt={product.title} className="h-48 object-contain mx-auto mb-4" />
-                <h3 className="text-sm font-semibold line-clamp-2">{product.category}</h3>
-              </Link>
-            </div>
-          ))}
-        </div>
+              
+              <div className="flex justify-between items-center max-w-6xl mx-auto px-2 mb-6">
+                <h3 className="text-xl font-semibold capitalize">{category}</h3>
+                <Link
+                  to={`/product?category=${encodeURIComponent(category)}`}
+                  className="text-sm text-blue-600 hover:underline"
+                >
+                  View All →
+                </Link>
+              </div>
+
+              {/* Product preview cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                {previewProducts.map((product) => (
+                  <motion.div
+                    key={product.id}
+                    whileHover={{ scale: 1.03 }}
+                    className="bg-white rounded-lg shadow hover:shadow-lg transition-all p-4 text-left"
+                  >
+                    <img
+                      src={product.image}
+                      alt={product.title}
+                      className="h-48 object-contain mx-auto mb-4"
+                    />
+                    <h4 className="text-sm font-semibold line-clamp-2">{product.title}</h4>
+                    <p className="text-gray-500 mt-1">${product.price}</p>
+                    <Link
+                      to={`/product?category=${encodeURIComponent(product.category)}`}
+                      className="text-sm text-blue-600 hover:underline mt-2 inline-block"
+                    >
+                      View Product
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          );
+        })}
       </section>
+
 
       {/* Bestsellers */}
       <section className="py-12 px-4">
