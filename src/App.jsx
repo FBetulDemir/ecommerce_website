@@ -23,25 +23,28 @@ function App() {
 
   const addToCart = (product) => {
     let updated = false;
+    const incomingQty = product.quantity || 1;
+  
     setCart((prevCart) => {
       const existing = prevCart.find((item) => item.id === product.id);
+  
       if (existing) {
         updated = true;
         return prevCart.map((item) =>
           item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: item.quantity + incomingQty }
             : item
         );
       } else {
-        return [...prevCart, { ...product, quantity: 1 }];
+        return [...prevCart, { ...product, quantity: incomingQty }];
       }
     });
-
-
+  
     setTimeout(() => {
-      toast.success(updated ? 'Increased quantity!' : 'Added to cart!');
+      toast.success(updated ? `Added ${incomingQty} more` : 'Added to cart!');
     }, 0);
   };
+  
 
 
   const removeFromCart = (productId) => {
